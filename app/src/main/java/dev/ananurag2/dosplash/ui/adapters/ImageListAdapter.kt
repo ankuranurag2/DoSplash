@@ -11,7 +11,7 @@ import dev.ananurag2.dosplash.model.ImageResponse
 /**
  * created by ankur on 21/10/20
  */
-class ImageListAdapter : ListAdapter<ImageResponse, ImageListAdapter.ImageVH>(ImageDiffUtilCallBack()) {
+class ImageListAdapter(val onItemClick: (ImageResponse) -> Unit) : ListAdapter<ImageResponse, ImageListAdapter.ImageVH>(ImageDiffUtilCallBack()) {
 
     inner class ImageVH(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -21,8 +21,10 @@ class ImageListAdapter : ListAdapter<ImageResponse, ImageListAdapter.ImageVH>(Im
     }
 
     override fun onBindViewHolder(holder: ImageVH, position: Int) {
-        holder.binding.image = getItem(position)
+        val imageResponse = getItem(position)
+        holder.binding.image = imageResponse
         holder.binding.executePendingBindings()
+        holder.binding.root.setOnClickListener { onItemClick(imageResponse) }
     }
 }
 

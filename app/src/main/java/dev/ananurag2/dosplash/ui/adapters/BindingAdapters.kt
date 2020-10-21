@@ -1,6 +1,7 @@
 package dev.ananurag2.dosplash.ui.adapters
 
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -27,4 +28,12 @@ fun loadThumbnailAndImage(view: ImageView, thumbUrl: String?, mainUrl: String?) 
         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
         .apply(RequestOptions().dontTransform())
         .into(view)
+}
+
+/**
+ * BindingAdapter that avoids null OR blank values on the TextView
+ */
+@BindingAdapter("safeText", requireAll = true)
+fun setNonNullText(view: TextView, text: String?) {
+    view.text = if (text.isNullOrBlank()) "Not Available" else text
 }
