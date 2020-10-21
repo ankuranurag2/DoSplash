@@ -34,13 +34,13 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             tools:src="@tools:sample/backgrounds/scenic" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/dosplash"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorGrey"
             android:textSize="32sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/tv_sub_title"
@@ -49,13 +49,13 @@
             app:layout_constraintTop_toTopOf="@id/iv_header"
             app:layout_constraintVertical_chainStyle="packed" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/tv_sub_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/top_photos_from_unsplash"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorGrey"
             app:layout_constraintBottom_toBottomOf="@id/iv_header"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
