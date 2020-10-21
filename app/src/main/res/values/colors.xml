@@ -7,6 +7,6 @@
     <color name="secondaryTextColor">#61000000</color>
     <color name="primaryTextColor">#8a000000</color>
     <color name="colorWhite">#ffffff</color>
-    <color name="colorGrey">#f5f5f5</color>
+    <color name="colorGrey">#B3f5f5f5</color>
     <color name="colorSplash">#81d5d8</color>
 </resources>
