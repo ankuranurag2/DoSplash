@@ -18,8 +18,8 @@
         <ImageView
             android:id="@+id/iv_post"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="h,16:9"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,7 +31,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_profile"
             style="@style/profile_iv_style"
-            android:layout_margin="@dimen/dimen_16_dp"
+            android:layout_margin="@dimen/dimen_8_dp"
             app:layout_constraintBottom_toBottomOf="@id/iv_post"
             app:layout_constraintEnd_toEndOf="@id/iv_post"
             app:thumbUrl="@{image.user.profileImage.small}"

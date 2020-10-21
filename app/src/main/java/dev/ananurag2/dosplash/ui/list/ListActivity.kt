@@ -14,6 +14,7 @@ class ListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListBinding
 
+    //Lazy dependency injection
     private val viewModel: ListViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +33,7 @@ class ListActivity : AppCompatActivity() {
                 is Resource.Success -> {
                     binding.random = it.data
                 }
-                is Resource.Failure -> {
+                is Resource.Error -> {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -43,7 +44,7 @@ class ListActivity : AppCompatActivity() {
                 is Resource.Success -> {
                     adapter.submitList(it.data)
                 }
-                is Resource.Failure -> {
+                is Resource.Error -> {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                 }
             }

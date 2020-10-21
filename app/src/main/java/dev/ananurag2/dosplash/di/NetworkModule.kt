@@ -11,8 +11,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
-const val BASE_URL = "https://api.unsplash.com/"
+//Define all the Network Modules, so that Koin can resolve them for dependency injection
 
+const val BASE_URL = "https://api.unsplash.com/"
 
 const val DEFAULT_TIME_OUT = 60L
 

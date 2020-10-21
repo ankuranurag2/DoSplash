@@ -26,6 +26,7 @@ class ImageListAdapter : ListAdapter<ImageResponse, ImageListAdapter.ImageVH>(Im
     }
 }
 
+//To determine if the Adapter needs to redraw the items
 private class ImageDiffUtilCallBack : DiffUtil.ItemCallback<ImageResponse>() {
     override fun areItemsTheSame(oldItem: ImageResponse, newItem: ImageResponse): Boolean {
         return oldItem.id == newItem.id

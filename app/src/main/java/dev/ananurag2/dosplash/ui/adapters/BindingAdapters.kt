@@ -9,6 +9,9 @@ import dev.ananurag2.dosplash.R
 
 /**
  * created by ankur on 21/10/20
+ * Custom binding adapter for ImageView
+ * It will take two urls i.e {@value thumbUrl} and {@value mainUrl}.
+ * The `thumbUrl` will be used to load a low quality image until the high quality image is fetched using `mainUrl`.
  */
 @BindingAdapter(value = ["thumbUrl", "mainUrl"], requireAll = true)
 fun loadThumbnailAndImage(view: ImageView, thumbUrl: String?, mainUrl: String?) {

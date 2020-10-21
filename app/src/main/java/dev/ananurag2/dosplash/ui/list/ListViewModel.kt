@@ -20,12 +20,14 @@ class ListViewModel(private val repository: ImageRepository) : ViewModel() {
     val imageListLiveData: MutableLiveData<Resource<List<ImageResponse>>> get() = _imageListLiveData
     val randomImageLiveData: MutableLiveData<Resource<ImageResponse>> get() = _randomImageLiveData
 
+    //Call the APIs at the first loading of the ViewModel
     init {
         getRandomImage()
         getLatestImages()
     }
 
     fun getLatestImages() {
+        //override the Dispatcher, as default one for `viewModelScope` is {@link Dispatchers.Main}
         viewModelScope.launch(Dispatchers.IO) {
             val response = repository.getLatestImages(pageNum)
             if (response.isSuccessful && response.body() != null) {

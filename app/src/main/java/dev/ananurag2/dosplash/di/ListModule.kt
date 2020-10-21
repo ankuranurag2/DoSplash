@@ -9,6 +9,9 @@ import org.koin.dsl.module
 /**
  * created by ankur on 21/10/20
  */
+
+//Define all the List Modules, so that Koin can resolve them for dependency injection
+
 val listModule = module {
     viewModel { ListViewModel(get()) }
     single { getImageRepo(get()) }
