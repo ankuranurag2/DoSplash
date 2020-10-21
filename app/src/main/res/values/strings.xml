@@ -2,4 +2,8 @@
     <string name="app_name">DoSplash</string>
     <string name="free_photos_from_unsplash">Free photos from unsplash</string>
     <string name="splash_screen_image">Splash Screen Image</string>
+    <string name="app_logo">App Logo</string>
+    <string name="header_image">Header Image</string>
+    <string name="dosplash">DOSPLASH</string>
+    <string name="top_photos_from_unsplash">Top photos from unsplash</string>
 </resources>
