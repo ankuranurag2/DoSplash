@@ -6,4 +6,6 @@
     <dimen name="dimen_16_dp">16dp</dimen>
     <dimen name="dimen_24_dp">24dp</dimen>
     <dimen name="dimen_32_dp">32dp</dimen>
+    <dimen name="header_image_height">180dp</dimen>
+    <dimen name="profile_image_dimen">50dp</dimen>
 </resources>

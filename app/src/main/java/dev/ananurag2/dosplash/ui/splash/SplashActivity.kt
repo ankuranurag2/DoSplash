@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import dev.ananurag2.dosplash.R
 import dev.ananurag2.dosplash.databinding.ActivitySplashBinding
-import dev.ananurag2.dosplash.ui.ListActivity
+import dev.ananurag2.dosplash.ui.list.ListActivity
 
 class SplashActivity : AppCompatActivity() {
     private val SPLASH_TIMEOUT = 500L

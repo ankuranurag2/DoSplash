@@ -1,4 +1,5 @@
 package dev.ananurag2.dosplash.model
+
 import androidx.annotation.Keep
 
 import com.squareup.moshi.Json
@@ -12,12 +13,16 @@ data class ImageResponse(
     @Json(name = "id")
     val id: String?,
     @Json(name = "description")
-    val description: String?,
+    val desc: String?,
+    @Json(name = "alt_description")
+    val alternateDesc: String?,
     @Json(name = "user")
     val user: User?,
     @Json(name = "urls")
     val urls: Urls?
-)
+) {
+    val description get() = if (desc.isNullOrBlank()) alternateDesc else desc
+}
 
 @Keep
 data class User(
