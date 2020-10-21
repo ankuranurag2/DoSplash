@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme. -->
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -9,20 +10,10 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 
-<!--        Roboto Font from Android-->
+        <!--        Roboto Font from Android-->
         <item name="fontFamily">sans-serif</item>
 
         <item name="android:statusBarColor">@color/colorWhite</item>
-    </style>
-
-    <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-    </style>
-
-    <style name="text_style">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/primaryTextColor</item>
-        <item name="fontFamily">sans-serif</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>
