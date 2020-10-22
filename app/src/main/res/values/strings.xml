@@ -9,4 +9,5 @@
     <string name="it_seems_you_are_not_connected_to_internet">It seems you are not connected to Internet!</string>
     <string name="connection_lost">Please check your connection!</string>
     <string name="no_data_found">No data found!</string>
+    <string name="swipe_to_refresh">Swipe Down to refresh!</string>
 </resources>

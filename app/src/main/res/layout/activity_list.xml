@@ -31,6 +31,24 @@
                 android:src="@drawable/ic_dosplash_logo" />
         </androidx.appcompat.widget.Toolbar>
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_container"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/header_image_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:shimmer_auto_start="true"
+            app:shimmer_base_color="@color/colorGrey"
+            app:shimmer_direction="left_to_right"
+            app:shimmer_duration="1000">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorDarkGrey" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <ImageView
             android:id="@+id/iv_header"
             android:layout_width="0dp"
@@ -38,6 +56,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/header_image"
             android:scaleType="centerCrop"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -54,6 +73,7 @@
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_size_36"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/tv_sub_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +88,7 @@
             android:gravity="center"
             android:text="@string/top_photos_from_unsplash"
             android:textColor="@color/colorWhite"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/iv_header"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
@@ -106,16 +127,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dimen_4_dp"
-                    android:progressTint="@color/primaryTextColor"
-                    android:visibility="gone" />
+                    android:progressTint="@color/primaryTextColor" />
 
                 <TextView
                     android:id="@+id/tv_empty"
                     style="@style/text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/dimen_8_dp"
+                    android:gravity="center"
                     android:padding="@dimen/dimen_4_dp"
-                    android:text="@string/no_data_found"
+                    android:text="@string/swipe_to_refresh"
+                    android:textSize="@dimen/text_size_18"
                     android:visibility="gone"
                     app:drawableTopCompat="@drawable/ic_error" />
             </LinearLayout>

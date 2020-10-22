@@ -19,6 +19,7 @@ import dev.ananurag2.dosplash.model.Resource
 import dev.ananurag2.dosplash.ui.adapters.ImageListAdapter
 import dev.ananurag2.dosplash.ui.details.DetailsActivity
 import dev.ananurag2.dosplash.utils.*
+import org.koin.android.ext.android.bind
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
@@ -89,7 +90,13 @@ class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
         viewModel.randomImageLiveData.observe(this, {
             when (it) {
                 is Resource.Success -> {
-                    binding.random = it.data
+                    with(binding) {
+                        shimmerContainer.hide()
+                        ivHeader.show()
+                        tvTitle.show()
+                        tvSubTitle.show()
+                        random = it.data
+                    }
                 }
                 is Resource.Error -> {
                     showToast(it.message)
@@ -123,12 +130,13 @@ class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
                             rvImageList.show()
                         } else {
                             rvImageList.hide()
+                            tvEmpty.text=getString(R.string.no_data_found)
                             tvEmpty.show()
                         }
                     }
 
                     is Resource.Error -> {
-                        if (!this@ListActivity::mAdapter.isInitialized || (mAdapter.currentList.size ?: 0) == 0){
+                        if (!this@ListActivity::mAdapter.isInitialized || (mAdapter.currentList.size ?: 0) == 0) {
                             rvImageList.hide()
                             tvEmpty.show()
                         }
