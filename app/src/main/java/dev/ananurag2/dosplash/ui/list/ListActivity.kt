@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.core.util.Pair
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.snackbar.Snackbar
 import dev.ananurag2.dosplash.R
 import dev.ananurag2.dosplash.databinding.ActivityListBinding
 import dev.ananurag2.dosplash.model.ImageResponse
@@ -43,8 +44,8 @@ class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
                 if (binding.random == null)
                     viewModel.getRandomImage()
                 viewModel.getLatestImages(false)
-            }else
-                binding.swipeRefreshLayout.isRefreshing=false
+            } else
+                binding.swipeRefreshLayout.isRefreshing = false
         }
 
         observeData()
@@ -66,7 +67,7 @@ class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
                     viewModel.resetSearch()
                 }
             }, {
-                inSearchMode=false
+                inSearchMode = false
                 searchView.clearFocus()
             })
         )
@@ -111,21 +112,27 @@ class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
                             mAdapter = ImageListAdapter(this@ListActivity)
                             rvImageList.adapter = mAdapter
                         }
-                        tvError.hide()
-                        /**
-                         * Known issue
-                         * List adapter doesn't update list item, if same list object is passed again. Hence [toMutableList] is used
-                         * https://stackoverflow.com/questions/49726385/listadapter-not-updating-item-in-recyclerview
-                         */
-                        mAdapter.submitList(it.data.toMutableList())
-                        rvImageList.show()
+                        if (it.data.size > 0) {
+                            /**
+                             * Known issue
+                             * List adapter doesn't update list item, if same list object is passed again. Hence [toMutableList] is used
+                             * https://stackoverflow.com/questions/49726385/listadapter-not-updating-item-in-recyclerview
+                             */
+                            mAdapter.submitList(it.data.toMutableList())
+                            tvEmpty.hide()
+                            rvImageList.show()
+                        } else {
+                            rvImageList.hide()
+                            tvEmpty.show()
+                        }
                     }
 
                     is Resource.Error -> {
-                        if (!this@ListActivity::mAdapter.isInitialized || (mAdapter.currentList.size ?: 0) == 0)
+                        if (!this@ListActivity::mAdapter.isInitialized || (mAdapter.currentList.size ?: 0) == 0){
                             rvImageList.hide()
-                        tvError.text = it.message
-                        tvError.show()
+                            tvEmpty.show()
+                        }
+                        showSnackBar(it.message)
                     }
                 }
             }
@@ -133,7 +140,7 @@ class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
 
         NetworkHelper.getNetworkLiveData(this).observe(this, {
             if (!it)
-                showToast(getString(R.string.connection_lost))
+                showSnackBar(getString(R.string.connection_lost))
         })
     }
 
@@ -151,5 +158,9 @@ class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
         }.let {
             startActivity(it, options.toBundle())
         }
+    }
+
+    private fun showSnackBar(msg: String) {
+        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
     }
 }

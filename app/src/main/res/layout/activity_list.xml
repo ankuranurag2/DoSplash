@@ -103,7 +103,6 @@
 
                 <ProgressBar
                     android:id="@+id/more_progress_bar"
-                    style="?android:progressBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dimen_4_dp"
@@ -111,12 +110,12 @@
                     android:visibility="gone" />
 
                 <TextView
-                    android:id="@+id/tv_error"
+                    android:id="@+id/tv_empty"
                     style="@style/text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dimen_4_dp"
-                    android:text="@string/it_seems_you_are_not_connected_to_internet"
+                    android:text="@string/no_data_found"
                     android:visibility="gone"
                     app:drawableTopCompat="@drawable/ic_error" />
             </LinearLayout>
