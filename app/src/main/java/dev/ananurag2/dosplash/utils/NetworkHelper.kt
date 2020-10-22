@@ -14,7 +14,7 @@ import androidx.lifecycle.MutableLiveData
  */
 object NetworkHelper : ConnectivityManager.NetworkCallback() {
 
-    private val networkLiveState: MutableLiveData<Boolean> = MutableLiveData()
+    private val networkLiveState: MutableLiveData<Boolean> = MutableLiveData(true)
 
     /**
      * Returns instance of [LiveData] which can be observed for network changes.

@@ -85,6 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:animateLayoutChanges="true"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -94,6 +95,7 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:overScrollMode="never"
+                    android:visibility="gone"
                     android:paddingHorizontal="@dimen/dimen_16_dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/list_item" />
@@ -103,7 +105,6 @@
                     style="?android:progressBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:padding="@dimen/dimen_4_dp"
                     android:progressTint="@color/primaryTextColor"
                     android:visibility="gone" />
@@ -113,7 +114,6 @@
                     style="@style/text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:padding="@dimen/dimen_4_dp"
                     android:text="@string/it_seems_you_are_not_connected_to_internet"
                     android:visibility="gone"

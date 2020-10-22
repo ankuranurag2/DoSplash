@@ -15,6 +15,7 @@ import dev.ananurag2.dosplash.ui.details.DetailsActivity
 import dev.ananurag2.dosplash.utils.NetworkHelper
 import dev.ananurag2.dosplash.utils.hide
 import dev.ananurag2.dosplash.utils.show
+import dev.ananurag2.dosplash.utils.showToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ListActivity : AppCompatActivity() {
@@ -30,9 +31,7 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_list)
 
-
         observeData()
-
     }
 
     private fun observeData() {
@@ -42,13 +41,13 @@ class ListActivity : AppCompatActivity() {
                     binding.random = it.data
                 }
                 is Resource.Error -> {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    showToast(it.message)
                 }
             }
         })
 
         viewModel.imageListLiveData.observe(this, {
-            with(binding){
+            with(binding) {
                 moreProgressBar.hide()
                 swipeRefreshLayout.isRefreshing = false
                 when (it) {
@@ -62,21 +61,21 @@ class ListActivity : AppCompatActivity() {
                         }
                         tvError.hide()
                         mAdapter.submitList(it.data)
+                        rvImageList.show()
                     }
                     is Resource.Error -> {
-                        with(binding) {
-                            if (this@ListActivity::mAdapter.isInitialized && mAdapter.currentList.size == 0)
+                            if (!this@ListActivity::mAdapter.isInitialized || (mAdapter.currentList.size?:0) == 0)
                                 rvImageList.hide()
                             tvError.text = it.message
                             tvError.show()
-                        }
                     }
                 }
             }
         })
 
         NetworkHelper.getNetworkLiveData(this).observe(this, {
-
+            if (!it)
+                showToast(getString(R.string.connection_lost))
         })
     }
 
