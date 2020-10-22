@@ -2,8 +2,10 @@ package dev.ananurag2.dosplash.ui.list
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.os.bundleOf
 import androidx.core.util.Pair
@@ -27,17 +29,48 @@ class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
     //Lazy dependency injection
     private val viewModel: ListViewModel by viewModel()
 
+    //[Boolean] flag to avoid pagination while in searchMode
+    private var inSearchMode: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_list)
 
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         binding.swipeRefreshLayout.setOnRefreshListener {
-            if (binding.random==null)
-                viewModel.getRandomImage()
-            viewModel.getLatestImages(false)
+            if (!inSearchMode) {
+                if (binding.random == null)
+                    viewModel.getRandomImage()
+                viewModel.getLatestImages(false)
+            }else
+                binding.swipeRefreshLayout.isRefreshing=false
         }
 
         observeData()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+
+        val search = menu?.findItem(R.id.toolbar_search)
+        val searchView = (search?.actionView as? SearchView)
+        searchView?.setOnQueryTextListener(
+            DebouncingQueryTextListener(this.lifecycle, { query ->
+                val queryLength = query?.length ?: 0
+                if (queryLength > 3) {
+                    inSearchMode = true
+                    viewModel.searchForQuery(query!!)
+                } else if (queryLength == 0) {
+                    inSearchMode = false
+                    viewModel.resetSearch()
+                }
+            }, {
+                inSearchMode=false
+                searchView.clearFocus()
+            })
+        )
+        return true
     }
 
     override fun onItemCLicked(imageResponse: ImageResponse, v1: View, v2: View) {
@@ -45,8 +78,10 @@ class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
     }
 
     override fun onBottomReached() {
-        binding.moreProgressBar.show()
-        viewModel.getLatestImages(true)
+        if (!inSearchMode) {
+            binding.moreProgressBar.show()
+            viewModel.getLatestImages(true)
+        }
     }
 
     private fun observeData() {

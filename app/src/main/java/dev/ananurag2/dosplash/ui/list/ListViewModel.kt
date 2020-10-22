@@ -15,18 +15,18 @@ import kotlinx.coroutines.launch
  * created by ankur on 21/10/20
  */
 class ListViewModel(private val repository: ImageRepository) : ViewModel() {
-    private val _imageListLiveData = MutableLiveData<Resource<ArrayList<ImageResponse>>>()
+    private val _imageStore = ArrayList<ImageResponse>()
     private val _randomImageLiveData = MutableLiveData<Resource<ImageResponse>>()
 
     private var pageNum = 1
 
-    val imageListLiveData: MutableLiveData<Resource<ArrayList<ImageResponse>>> get() = _imageListLiveData
+    val imageListLiveData = MutableLiveData<Resource<ArrayList<ImageResponse>>>()
     val randomImageLiveData: MutableLiveData<Resource<ImageResponse>> get() = _randomImageLiveData
 
     //[CoroutineExceptionHandler] for Latest Images API call
     private val coroutineExceptionHandlerLatest = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
-        _imageListLiveData.postValue(Resource.error("Please check your connection!"))
+        imageListLiveData.postValue(Resource.error("Please check your connection!"))
     }
 
     //[CoroutineExceptionHandler] for Random Image API call
@@ -46,7 +46,7 @@ class ListViewModel(private val repository: ImageRepository) : ViewModel() {
      */
     fun getLatestImages(isLoadMore: Boolean) {
         if (!NetworkHelper.getNetworkStatus()) {
-            _imageListLiveData.postValue(Resource.error("It seems you are not connected to Internet!"))
+            imageListLiveData.postValue(Resource.error("It seems you are not connected to Internet!"))
             return
         }
 
@@ -59,14 +59,12 @@ class ListViewModel(private val repository: ImageRepository) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandlerLatest) {
             val response = repository.getLatestImages(pageNum)
             if (response.isSuccessful && response.body() != null) {
-                var imageList = (_imageListLiveData.value as? Resource.Success)?.data
-                if (!isLoadMore || imageList.isNullOrEmpty())
-                    imageList = ArrayList(response.body()!!)
-                else
-                    imageList.addAll(response.body()!!)
-                _imageListLiveData.postValue(Resource.success(imageList))
+                if (!isLoadMore)
+                    _imageStore.clear()
+                _imageStore.addAll(response.body()!!)
+                imageListLiveData.postValue(Resource.success(_imageStore))
             } else
-                _imageListLiveData.postValue(Resource.error(if (pageNum > 1) "Failed to fetch more images!" else "Failed to fetch images!"))
+                imageListLiveData.postValue(Resource.error(if (pageNum > 1) "Failed to fetch more images!" else "Failed to fetch images!"))
         }
     }
 
@@ -79,6 +77,21 @@ class ListViewModel(private val repository: ImageRepository) : ViewModel() {
                 _randomImageLiveData.postValue(Resource.success(response.body()!!))
             } else
                 _randomImageLiveData.postValue(Resource.error("Failed to fetch header image!"))
+        }
+    }
+
+    fun resetSearch() {
+        imageListLiveData.postValue(Resource.success(_imageStore))
+    }
+
+    fun searchForQuery(query: String) {
+        viewModelScope.launch {
+            if (_imageStore.isNullOrEmpty())
+                imageListLiveData.postValue(Resource.success(_imageStore))
+            else {
+                val filteredList = repository.getFilterList(query, _imageStore)
+                imageListLiveData.postValue(Resource.success(ArrayList(filteredList)))
+            }
         }
     }
 }
