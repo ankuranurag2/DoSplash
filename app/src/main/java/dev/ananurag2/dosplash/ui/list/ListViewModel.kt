@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dev.ananurag2.dosplash.model.ImageResponse
 import dev.ananurag2.dosplash.model.Resource
 import dev.ananurag2.dosplash.repository.ImageRepository
+import dev.ananurag2.dosplash.utils.NetworkHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -20,13 +21,15 @@ class ListViewModel(private val repository: ImageRepository) : ViewModel() {
     val imageListLiveData: MutableLiveData<Resource<List<ImageResponse>>> get() = _imageListLiveData
     val randomImageLiveData: MutableLiveData<Resource<ImageResponse>> get() = _randomImageLiveData
 
-    //Call the APIs at the first loading of the ViewModel
+    //Call the APIs for the very first time when ViewModel is instantiated
     init {
         getRandomImage()
         getLatestImages()
     }
 
     fun getLatestImages() {
+        if (!NetworkHelper.getNetworkStatus()) return
+
         //override the Dispatcher, as default one for `viewModelScope` is {@link Dispatchers.Main}
         viewModelScope.launch(Dispatchers.IO) {
             val response = repository.getLatestImages(pageNum)
@@ -38,6 +41,8 @@ class ListViewModel(private val repository: ImageRepository) : ViewModel() {
     }
 
     fun getRandomImage() {
+        if (!NetworkHelper.getNetworkStatus()) return
+
         viewModelScope.launch(Dispatchers.IO) {
             val response = repository.getRandomImage()
             if (response.isSuccessful && response.body() != null) {
