@@ -2,8 +2,12 @@ package dev.ananurag2.dosplash.ui.list
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.os.bundleOf
+import androidx.core.util.Pair
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import dev.ananurag2.dosplash.R
 import dev.ananurag2.dosplash.databinding.ActivityListBinding
@@ -34,8 +38,8 @@ class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
         observeData()
     }
 
-    override fun onItemCLicked(imageResponse: ImageResponse) {
-        navigateToDetailsActivity(imageResponse)
+    override fun onItemCLicked(imageResponse: ImageResponse, v1: View, v2: View) {
+        navigateToDetailsActivity(imageResponse, v1, v2)
     }
 
     override fun onBottomReached() {
@@ -96,13 +100,19 @@ class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
         })
     }
 
-    //A function that would be passed to @{@link ListAdapter}. It would be invoked when any itemView is clicked.
-    private fun navigateToDetailsActivity(data: ImageResponse) {
+    /**
+     *  It would be invoked when any itemView is clicked.
+     *  Opens [DetailsActivity] with sharedElementTransitions
+     */
+    private fun navigateToDetailsActivity(data: ImageResponse, v1: View, v2: View) {
+        val p1 = Pair.create(v1, ViewCompat.getTransitionName(v1))
+        val p2 = Pair.create(v2, ViewCompat.getTransitionName(v2))
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2)
         val bundle = bundleOf(DetailsActivity.IMAGE_DATA_EXTRAS to data)
         Intent(this, DetailsActivity::class.java).also {
             it.putExtras(bundle)
         }.let {
-            startActivity(it)
+            startActivity(it, options.toBundle())
         }
     }
 }

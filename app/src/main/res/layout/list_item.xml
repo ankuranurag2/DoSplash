@@ -26,12 +26,14 @@
             app:mainUrl="@{image.urls.regular}"
             app:thumbUrl="@{image.urls.thumb}"
             tools:ignore="ContentDescription"
+            android:transitionName="@{image.id}"
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_profile"
             style="@style/profile_iv_style"
             android:layout_margin="@dimen/dimen_8_dp"
+            android:transitionName="@{image.user.username}"
             app:layout_constraintBottom_toBottomOf="@id/iv_post"
             app:layout_constraintEnd_toEndOf="@id/iv_post"
             app:thumbUrl="@{image.user.profileImage.small}"

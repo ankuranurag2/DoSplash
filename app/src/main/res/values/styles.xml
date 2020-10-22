@@ -8,8 +8,9 @@
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:windowContentTransitions">true</item>
 
-<!--        Roboto Font from Android-->
+        <!--        Roboto Font from Android-->
         <item name="fontFamily">sans-serif</item>
 
         <item name="android:statusBarColor">@color/colorWhite</item>

@@ -23,11 +23,13 @@ class ImageListAdapter(private val listener: RecyclerViewEventListener) : ListAd
 
     override fun onBindViewHolder(holder: ImageVH, position: Int) {
         val imageResponse = getItem(position)
-        holder.binding.image = imageResponse
-        holder.binding.executePendingBindings()
-        holder.binding.root.setOnClickListener { listener.onItemCLicked(imageResponse) }
-        if (position == itemCount - 1)
-            listener.onBottomReached()
+        with(holder.binding) {
+            image = imageResponse
+            executePendingBindings()
+            root.setOnClickListener { listener.onItemCLicked(imageResponse, ivPost, ivProfile) }
+            if (position == itemCount - 1)
+                listener.onBottomReached()
+        }
     }
 }
 
