@@ -2,7 +2,6 @@ package dev.ananurag2.dosplash.ui.list
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
@@ -12,13 +11,10 @@ import dev.ananurag2.dosplash.model.ImageResponse
 import dev.ananurag2.dosplash.model.Resource
 import dev.ananurag2.dosplash.ui.adapters.ImageListAdapter
 import dev.ananurag2.dosplash.ui.details.DetailsActivity
-import dev.ananurag2.dosplash.utils.NetworkHelper
-import dev.ananurag2.dosplash.utils.hide
-import dev.ananurag2.dosplash.utils.show
-import dev.ananurag2.dosplash.utils.showToast
+import dev.ananurag2.dosplash.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ListActivity : AppCompatActivity() {
+class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
 
     private lateinit var binding: ActivityListBinding
 
@@ -31,7 +27,20 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_list)
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.getLatestImages(false)
+        }
+
         observeData()
+    }
+
+    override fun onItemCLicked(imageResponse: ImageResponse) {
+        navigateToDetailsActivity(imageResponse)
+    }
+
+    override fun onBottomReached() {
+        binding.moreProgressBar.show()
+        viewModel.getLatestImages(true)
     }
 
     private fun observeData() {
@@ -50,24 +59,32 @@ class ListActivity : AppCompatActivity() {
             with(binding) {
                 moreProgressBar.hide()
                 swipeRefreshLayout.isRefreshing = false
+
                 when (it) {
+
                     is Resource.Success -> {
                         /**
                          *check if lateinit [mAdapter] is initialize or not
                          */
                         if (!this@ListActivity::mAdapter.isInitialized) {
-                            mAdapter = ImageListAdapter { imageResponse -> navigateToDetailsActivity(imageResponse) }
+                            mAdapter = ImageListAdapter(this@ListActivity)
                             rvImageList.adapter = mAdapter
                         }
                         tvError.hide()
-                        mAdapter.submitList(it.data)
+                        /**
+                         * Known issue
+                         * List adapter doesn't update list item, if same list object is passed again. Hence [toMutableList] is used
+                         * https://stackoverflow.com/questions/49726385/listadapter-not-updating-item-in-recyclerview
+                         */
+                        mAdapter.submitList(it.data.toMutableList())
                         rvImageList.show()
                     }
+
                     is Resource.Error -> {
-                            if (!this@ListActivity::mAdapter.isInitialized || (mAdapter.currentList.size?:0) == 0)
-                                rvImageList.hide()
-                            tvError.text = it.message
-                            tvError.show()
+                        if (!this@ListActivity::mAdapter.isInitialized || (mAdapter.currentList.size ?: 0) == 0)
+                            rvImageList.hide()
+                        tvError.text = it.message
+                        tvError.show()
                     }
                 }
             }

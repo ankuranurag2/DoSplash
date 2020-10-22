@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.ananurag2.dosplash.databinding.ListItemBinding
 import dev.ananurag2.dosplash.model.ImageResponse
+import dev.ananurag2.dosplash.utils.RecyclerViewEventListener
 
 /**
  * created by ankur on 21/10/20
  */
-class ImageListAdapter(val onItemClick: (ImageResponse) -> Unit) : ListAdapter<ImageResponse, ImageListAdapter.ImageVH>(ImageDiffUtilCallBack()) {
+class ImageListAdapter(private val listener: RecyclerViewEventListener) : ListAdapter<ImageResponse, ImageListAdapter.ImageVH>(ImageDiffUtilCallBack()) {
 
     inner class ImageVH(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -24,7 +25,9 @@ class ImageListAdapter(val onItemClick: (ImageResponse) -> Unit) : ListAdapter<I
         val imageResponse = getItem(position)
         holder.binding.image = imageResponse
         holder.binding.executePendingBindings()
-        holder.binding.root.setOnClickListener { onItemClick(imageResponse) }
+        holder.binding.root.setOnClickListener { listener.onItemCLicked(imageResponse) }
+        if (position == itemCount - 1)
+            listener.onBottomReached()
     }
 }
 

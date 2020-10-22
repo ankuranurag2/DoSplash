@@ -15,12 +15,12 @@ import kotlinx.coroutines.launch
  * created by ankur on 21/10/20
  */
 class ListViewModel(private val repository: ImageRepository) : ViewModel() {
-    private val _imageListLiveData = MutableLiveData<Resource<List<ImageResponse>>>()
+    private val _imageListLiveData = MutableLiveData<Resource<ArrayList<ImageResponse>>>()
     private val _randomImageLiveData = MutableLiveData<Resource<ImageResponse>>()
 
     private var pageNum = 1
 
-    val imageListLiveData: MutableLiveData<Resource<List<ImageResponse>>> get() = _imageListLiveData
+    val imageListLiveData: MutableLiveData<Resource<ArrayList<ImageResponse>>> get() = _imageListLiveData
     val randomImageLiveData: MutableLiveData<Resource<ImageResponse>> get() = _randomImageLiveData
 
     //[CoroutineExceptionHandler] for Latest Images API call
@@ -37,22 +37,36 @@ class ListViewModel(private val repository: ImageRepository) : ViewModel() {
     //Call the APIs for the very first time when ViewModel is instantiated
     init {
         getRandomImage()
-        getLatestImages()
+        getLatestImages(false)
     }
 
-    fun getLatestImages() {
+    /**
+     * If [isLoadMore]==true, then it is pagination call for next page
+     * else it is call for fetching new images
+     */
+    fun getLatestImages(isLoadMore: Boolean) {
         if (!NetworkHelper.getNetworkStatus()) {
             _imageListLiveData.postValue(Resource.error("It seems you are not connected to Internet!"))
             return
         }
 
+        if (isLoadMore)
+            pageNum++
+        else
+            pageNum = 1
+
         //override the Dispatcher, as default one for `viewModelScope` is {@link Dispatchers.Main}
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandlerLatest) {
             val response = repository.getLatestImages(pageNum)
             if (response.isSuccessful && response.body() != null) {
-                _imageListLiveData.postValue(Resource.success(response.body()!!))
+                var imageList = (_imageListLiveData.value as? Resource.Success)?.data
+                if (!isLoadMore || imageList.isNullOrEmpty())
+                    imageList = ArrayList(response.body()!!)
+                else
+                    imageList.addAll(response.body()!!)
+                _imageListLiveData.postValue(Resource.success(imageList))
             } else
-                _imageListLiveData.postValue(Resource.error("Failed to fetch images!"))
+                _imageListLiveData.postValue(Resource.error(if (pageNum > 1) "Failed to fetch more images!" else "Failed to fetch images!"))
         }
     }
 
