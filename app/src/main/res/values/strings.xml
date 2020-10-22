@@ -6,4 +6,5 @@
     <string name="header_image">Header Image</string>
     <string name="dosplash">DOSPLASH</string>
     <string name="top_photos_from_unsplash">Top photos from unsplash</string>
+    <string name="it_seems_you_are_not_connected_to_internet">It seems you are not connected to Internet!</string>
 </resources>

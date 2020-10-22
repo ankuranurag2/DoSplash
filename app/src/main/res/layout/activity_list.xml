@@ -13,6 +13,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorWhite"
         tools:context=".ui.list.ListActivity">
 
         <androidx.appcompat.widget.Toolbar
@@ -80,15 +81,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_header">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_image_list"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:overScrollMode="never"
-                android:paddingHorizontal="@dimen/dimen_16_dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/list_item" />
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_image_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:overScrollMode="never"
+                    android:paddingHorizontal="@dimen/dimen_16_dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/list_item" />
+
+                <ProgressBar
+                    android:id="@+id/more_progress_bar"
+                    style="?android:progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/dimen_4_dp"
+                    android:progressTint="@color/primaryTextColor"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_error"
+                    style="@style/text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/dimen_4_dp"
+                    android:text="@string/it_seems_you_are_not_connected_to_internet"
+                    android:visibility="gone"
+                    app:drawableTopCompat="@drawable/ic_error" />
+            </LinearLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

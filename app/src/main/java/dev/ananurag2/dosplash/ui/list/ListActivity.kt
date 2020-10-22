@@ -12,11 +12,16 @@ import dev.ananurag2.dosplash.model.ImageResponse
 import dev.ananurag2.dosplash.model.Resource
 import dev.ananurag2.dosplash.ui.adapters.ImageListAdapter
 import dev.ananurag2.dosplash.ui.details.DetailsActivity
+import dev.ananurag2.dosplash.utils.NetworkHelper
+import dev.ananurag2.dosplash.utils.hide
+import dev.ananurag2.dosplash.utils.show
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListBinding
+
+    private lateinit var mAdapter: ImageListAdapter
 
     //Lazy dependency injection
     private val viewModel: ListViewModel by viewModel()
@@ -25,14 +30,12 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_list)
 
-        val adapter = ImageListAdapter { navigateToDetailsActivity(it) }
-        adapter.let {
-            binding.rvImageList.adapter = it
-            observeData(it)
-        }
+
+        observeData()
+
     }
 
-    private fun observeData(adapter: ImageListAdapter) {
+    private fun observeData() {
         viewModel.randomImageLiveData.observe(this, {
             when (it) {
                 is Resource.Success -> {
@@ -45,14 +48,35 @@ class ListActivity : AppCompatActivity() {
         })
 
         viewModel.imageListLiveData.observe(this, {
-            when (it) {
-                is Resource.Success -> {
-                    adapter.submitList(it.data)
-                }
-                is Resource.Error -> {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+            with(binding){
+                moreProgressBar.hide()
+                swipeRefreshLayout.isRefreshing = false
+                when (it) {
+                    is Resource.Success -> {
+                        /**
+                         *check if lateinit [mAdapter] is initialize or not
+                         */
+                        if (!this@ListActivity::mAdapter.isInitialized) {
+                            mAdapter = ImageListAdapter { imageResponse -> navigateToDetailsActivity(imageResponse) }
+                            rvImageList.adapter = mAdapter
+                        }
+                        tvError.hide()
+                        mAdapter.submitList(it.data)
+                    }
+                    is Resource.Error -> {
+                        with(binding) {
+                            if (this@ListActivity::mAdapter.isInitialized && mAdapter.currentList.size == 0)
+                                rvImageList.hide()
+                            tvError.text = it.message
+                            tvError.show()
+                        }
+                    }
                 }
             }
+        })
+
+        NetworkHelper.getNetworkLiveData(this).observe(this, {
+
         })
     }
 

@@ -2,6 +2,7 @@
 <resources>
     <dimen name="text_size_18">18sp</dimen>
 
+    <dimen name="dimen_4_dp">4dp</dimen>
     <dimen name="dimen_8_dp">8dp</dimen>
     <dimen name="dimen_16_dp">16dp</dimen>
     <dimen name="dimen_24_dp">24dp</dimen>
