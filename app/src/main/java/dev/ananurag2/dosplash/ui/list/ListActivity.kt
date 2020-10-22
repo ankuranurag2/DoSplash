@@ -32,6 +32,8 @@ class ListActivity : AppCompatActivity(), RecyclerViewEventListener {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_list)
 
         binding.swipeRefreshLayout.setOnRefreshListener {
+            if (binding.random==null)
+                viewModel.getRandomImage()
             viewModel.getLatestImages(false)
         }
 

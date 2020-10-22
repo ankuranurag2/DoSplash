@@ -51,8 +51,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/dosplash"
-            android:textColor="@color/colorGrey"
-            android:textSize="32sp"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_36"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/tv_sub_title"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,13 +60,14 @@
             app:layout_constraintTop_toTopOf="@id/iv_header"
             app:layout_constraintVertical_chainStyle="packed" />
 
+        <!--        Tried to match it with Title using AutoSizeTextView, but didn't work-->
         <TextView
             android:id="@+id/tv_sub_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/top_photos_from_unsplash"
-            android:textColor="@color/colorGrey"
+            android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="@id/iv_header"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
@@ -95,8 +96,8 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:overScrollMode="never"
-                    android:visibility="gone"
                     android:paddingHorizontal="@dimen/dimen_16_dp"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/list_item" />
 

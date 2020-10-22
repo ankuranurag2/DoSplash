@@ -8,6 +8,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import dev.ananurag2.dosplash.R
 
+
 /**
  * created by ankur on 21/10/20
  * Custom binding adapter for ImageView
@@ -20,13 +21,15 @@ fun loadThumbnailAndImage(view: ImageView, thumbUrl: String?, mainUrl: String?) 
     val thumbnailRequest = Glide.with(view.context)
         .load(thumbUrl)
 
+    val options: RequestOptions = RequestOptions()
+        .placeholder(R.drawable.ic_loading)
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .error(R.drawable.ic_error)
+
     Glide.with(view.context)
         .load(mainUrl)
         .thumbnail(thumbnailRequest)
-        .placeholder(R.drawable.ic_loading)
-        .error(R.drawable.ic_error)
-        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-        .apply(RequestOptions().dontTransform())
+        .apply(options)
         .into(view)
 }
 

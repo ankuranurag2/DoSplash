@@ -11,6 +11,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorWhite"
         android:fillViewport="true"
         android:overScrollMode="never">
 
@@ -40,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_8_dp"
                 android:background="@drawable/shape_circle_white"
-                android:padding="@dimen/dimen_16_dp"
+                android:padding="@dimen/dimen_8_dp"
                 android:src="@drawable/ic_close"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -55,12 +56,13 @@
 
             <TextView
                 android:id="@+id/tv_location"
-                style="@style/text_style"
+                style="@style/details_text_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_16_dp"
                 android:drawablePadding="@dimen/dimen_8_dp"
                 android:gravity="center_vertical"
+                android:textSize="@dimen/text_size_12"
                 app:drawableStartCompat="@drawable/ic_location"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/guideline"
@@ -70,7 +72,7 @@
 
             <TextView
                 android:id="@+id/tv_desc"
-                style="@style/text_style"
+                style="@style/details_text_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_16_dp"
@@ -93,7 +95,7 @@
 
             <TextView
                 android:id="@+id/tv_user_name"
-                style="@style/text_style"
+                style="@style/details_text_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_16_dp"

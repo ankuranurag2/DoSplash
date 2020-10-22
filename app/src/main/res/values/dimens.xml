@@ -8,5 +8,7 @@
     <dimen name="dimen_24_dp">24dp</dimen>
     <dimen name="dimen_32_dp">32dp</dimen>
     <dimen name="header_image_height">150dp</dimen>
-    <dimen name="profile_image_dimen">40dp</dimen>
+    <dimen name="profile_image_dimen">32dp</dimen>
+    <dimen name="text_size_36">36sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
 </resources>
