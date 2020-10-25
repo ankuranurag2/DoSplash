@@ -87,7 +87,7 @@
                         app:layout_constraintVertical_chainStyle="packed" />
 
                     <!--        Tried to match it with Title using AutoSizeTextView, but didn't work-->
-                    <TextView
+                    <dev.ananurag2.dosplash.FontFitTextView
                         android:id="@+id/tv_sub_title"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
