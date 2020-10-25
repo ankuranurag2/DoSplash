@@ -20,7 +20,7 @@ class ImageRepository(private val apiService: ApiService) {
     }
 
     companion object {
-        private val ENCRYPTION_KEY = "ENCRYPTION_KEY"
-        private val ACCESS_KEY get() = "ACCESS_KEY".decrypt(ENCRYPTION_KEY)
+        private val ENCRYPTION_KEY = "ECRYPTION_KEYYYY"
+        private val ACCESS_KEY get() = "6sgKdEW5xh0RE2WEXjsaDMCEoKYbMBhpJIV5UNs08mlW9w37DJWI/GZqRwSEq8kdt2a5BWa9j64+oWs=".decrypt(ENCRYPTION_KEY)
     }
 }

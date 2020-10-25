@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import java.net.ConnectException
 import java.net.UnknownHostException
+import javax.crypto.AEADBadTagException
 
 /**
  * created by ankur on 21/10/20
@@ -104,6 +105,7 @@ class ListViewModel(private val repository: ImageRepository) : ViewModel() {
         return when (throwable) {
             is ConnectException -> "Connection Interrupted."
             is UnknownHostException -> "Please check you internet connection."
+            is AEADBadTagException -> "Decryption key not valid."
             else -> "Failed to fetch images!"
         }
     }
