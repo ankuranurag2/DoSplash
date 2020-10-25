@@ -14,6 +14,8 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
+import java.net.ConnectException
+import java.net.UnknownHostException
 
 /**
  * created by ankur on 21/10/20
@@ -29,13 +31,12 @@ class ListViewModel(private val repository: ImageRepository) : ViewModel() {
 
     //[CoroutineExceptionHandler] for Latest Images API call
     private val coroutineExceptionHandlerLatest = CoroutineExceptionHandler { _, throwable ->
-        throwable.printStackTrace()
-        imageListLiveData.postValue(Resource.error("Please check your connection!"))
+        imageListLiveData.postValue(Resource.error(handleNetworkError(throwable)))
     }
 
     //[CoroutineExceptionHandler] for Random Image API call
     private val coroutineExceptionHandlerRandom = CoroutineExceptionHandler { _, throwable ->
-        throwable.printStackTrace()
+        _randomImageLiveData.postValue(Resource.error(handleNetworkError(throwable)))
     }
 
     //Call the APIs for the very first time when ViewModel is instantiated
@@ -98,5 +99,13 @@ class ListViewModel(private val repository: ImageRepository) : ViewModel() {
         val adapter: JsonAdapter<ErrorResponse> = moshi.adapter(ErrorResponse::class.java)
         val errorResponse = adapter.fromJson(errorBody.string())
         return errorResponse?.errorList?.first() ?: "Something went wrong!"
+    }
+
+    private fun handleNetworkError(throwable: Throwable): String {
+        return when (throwable) {
+            is ConnectException -> "Connection Interrupted."
+            is UnknownHostException -> "Please check you internet connection."
+            else -> "Failed to fetch images!"
+        }
     }
 }
