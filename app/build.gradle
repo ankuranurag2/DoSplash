@@ -52,6 +52,7 @@ dependencies {
     def glide_version = '4.10.0'
     def material_version = '1.2.1'
     def shimmer_version = '0.5.0'
+    def moshi_codegen_version = '1.9.2'
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -73,6 +74,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$interceptor_version"
     implementation "com.squareup.retrofit2:converter-moshi:$moshi_version"
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_kotlin_version"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_codegen_version"
 
     //ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
