@@ -30,6 +30,7 @@
             android:text="@string/free_photos_from_unsplash"
             android:textColor="@color/splashTextBlack"
             android:textSize="@dimen/text_size_18"
+            android:layout_marginTop="@dimen/dimen_16_dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

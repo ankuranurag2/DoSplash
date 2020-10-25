@@ -9,7 +9,6 @@ import dev.ananurag2.dosplash.model.ErrorResponse
 import dev.ananurag2.dosplash.model.ImageResponse
 import dev.ananurag2.dosplash.model.Resource
 import dev.ananurag2.dosplash.repository.ImageRepository
-import dev.ananurag2.dosplash.utils.NetworkHelper
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -79,17 +78,17 @@ class ListViewModel(private val repository: ImageRepository) : ViewModel() {
     }
 
     fun resetSearch() {
+        if (_imageStore.isNullOrEmpty())
+            return
         imageListLiveData.postValue(Resource.success(_imageStore))
     }
 
     fun searchForQuery(query: String) {
+        if (_imageStore.isNullOrEmpty())
+            return
         viewModelScope.launch {
-            if (_imageStore.isNullOrEmpty())
-                imageListLiveData.postValue(Resource.success(_imageStore))
-            else {
-                val filteredList = repository.getFilterList(query, _imageStore)
-                imageListLiveData.postValue(Resource.success(ArrayList(filteredList)))
-            }
+            val filteredList = repository.getFilterList(query, _imageStore)
+            imageListLiveData.postValue(Resource.success(ArrayList(filteredList)))
         }
     }
 

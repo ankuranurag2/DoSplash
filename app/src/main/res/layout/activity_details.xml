@@ -39,7 +39,7 @@
                 android:id="@+id/iv_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dimen_8_dp"
+                android:layout_margin="@dimen/dimen_16_dp"
                 android:background="@drawable/shape_circle_white"
                 android:padding="@dimen/dimen_8_dp"
                 android:src="@drawable/ic_close"
@@ -48,11 +48,18 @@
                 tools:ignore="ContentDescription" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline"
+                android:id="@+id/guideline_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="@dimen/dimen_16_dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/dimen_16_dp" />
 
             <TextView
                 android:id="@+id/tv_location"
@@ -64,8 +71,8 @@
                 android:gravity="center_vertical"
                 android:textSize="@dimen/text_size_12"
                 app:drawableStartCompat="@drawable/ic_location"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toEndOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/iv_post"
                 app:safeText="@{image.user.location}"
                 tools:text="@tools:sample/lorem" />
@@ -76,8 +83,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_16_dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toEndOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/tv_location"
                 app:safeText="@{image.description}"
                 tools:text="@tools:sample/lorem" />
@@ -87,7 +94,7 @@
                 style="@style/profile_iv_style"
                 android:layout_marginTop="@dimen/dimen_16_dp"
                 android:transitionName="@{image.user.username}"
-                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintStart_toEndOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/tv_desc"
                 app:mainUrl="@{image.user.profileImage.large}"
                 app:thumbUrl="@{image.user.profileImage.small}"
@@ -102,6 +109,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/iv_profile"
                 app:layout_constraintStart_toEndOf="@id/iv_profile"
                 app:layout_constraintTop_toTopOf="@id/iv_profile"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:safeText="@{image.user.name}"
                 tools:text="@tools:sample/lorem" />
 
